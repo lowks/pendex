@@ -29,9 +29,9 @@ defmodule Pendex.Mixfile do
   end
 
   defp package do
-    [contributors: ["Jonah Ruiz"],
+    [contributors: ["Low Kian Seong"],
      licenses: ["MIT"],
-     links: %{"Github" => "https://github.com/jonahoffline/link_shrinkex"}]
+     links: %{"Github" => "https://github.com/lowks/pendex"}]
   end
 
   # Returns the list of dependencies in the format:

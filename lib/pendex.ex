@@ -18,26 +18,39 @@ defmodule Pendex do
   end
 
   def main(args) do
-    args |> parse_args
+    args |> parse_args |> do_cli
   end
-  
-  # def main(args) do
-  #   IO.puts "My shit"
-  # end
 
   def parse_args(args) do
     options = OptionParser.parse(args, switches: [help: :boolean], aliases: [h: :help])
     case options do
-      { [ help: true ], _, _ } -> IO.puts "Will implement help later"
-      { _, [url], _ }        -> do_cli(url, [:json])
-      _                -> IO.puts "Nothing put"
+      { [ help: true ], _, _ }    -> :help
+      { _, [url, opt], _ }        -> [url, opt]
+      { _, [url], _ }             -> [url]
+      _                           -> :help
     end
   end
 
-  def do_cli(url, opts) do
+  def do_cli(:help) do
+    IO.puts """
+     Usage: 
+      pendex [url] [format]
+
+    """
+    System.halt(0)
+  end
+
+  def do_cli([url]) do
     case Pendex.shrink_url(url) do
       {ok, result} ->  IO.puts result
-                _  -> IO.puts "Could not shorten"
+                _  ->  IO.puts "Could not shorten"
+    end
+  end
+
+  def do_cli([url, opt]) do
+    case Pendex.shrink_url(url, [:opt]) do
+      {ok, result} ->  IO.puts result
+                _  ->  IO.puts "Could not shorten"
     end
   end
 
