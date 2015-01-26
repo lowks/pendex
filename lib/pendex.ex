@@ -55,7 +55,7 @@ defmodule Pendex do
   end
 
   @doc "Prepares the body request for API"
-  def prepare_request_body(url), do: LinkShrinkex.Request.prepare_request_body(url)
+  def prepare_request_body(url), do: Pendex.Request.prepare_request_body(url)
 
   @doc """
   Creates a short url from a long url using Google's URL Shortner API
