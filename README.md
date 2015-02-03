@@ -9,4 +9,4 @@
 
 1. Checkout out the source `git co https://github.com/lowks/pendex.git`
  
-1. Just run 'pendex --help' to see the full list of options. That's it
+1. In the source directory, just run './pendex --help' to see the full list of options. Everything else should be self explanatory. That's it. If that is not the way it turned out consider raising a ticket here.
