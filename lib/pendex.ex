@@ -22,11 +22,12 @@ defmodule Pendex do
   end
 
   def parse_args(args) do
-    options = OptionParser.parse(args, switches: [help: :boolean], aliases: [h: :help])
+    options = OptionParser.parse(args, switches: [help: :boolean, url: :string, opt: :string], aliases: [h: :help])
     case options do
       { [ help: true ], _, _ }    -> :help
-      { _, [url, opt], _ }        -> [url, opt]
-      { _, [url], _ }             -> [url]
+      # { _, [url, opt], _ }      -> [url, opt]
+      {switches, _, _}            -> switches
+      # { _, [url], _ }             -> [url]
       _                           -> :help
     end
   end
@@ -40,17 +41,27 @@ defmodule Pendex do
     System.halt(0)
   end
 
-  def do_cli([url]) do
-    case Pendex.shrink_url(url) do
-      {ok, result} ->  IO.puts result
-                _  ->  IO.puts "Could not shorten"
-    end
-  end
+  # def do_cli([url]) do
+  #   case Pendex.shrink_url(url) do
+  #     {ok, result} ->  IO.puts result
+  #               _  ->  IO.puts "Could not shorten"
+  #   end
+  # end
 
-  def do_cli([url, opt]) do
-    case Pendex.shrink_url(url, [:opt]) do
-      {ok, result} ->  IO.puts result
-                _  ->  IO.puts "Could not shorten"
+  def do_cli(switches) when is_list(switches) do
+    url = Keyword.get(switches, :url, nil)
+    opt = Keyword.get(switches, :opt, nil)
+  # def do_cli([url, opt]) do
+    case {url, opt} do
+      {nil, _} -> do_cli(:help)
+      {_, nil} -> case Pendex.shrink_url(url) do
+                    {ok, result} ->  IO.puts result
+                    _  ->  IO.puts "Could not shorten"
+                  end
+      {_,_} -> case Pendex.shrink_url(url, [:opt]) do
+                    {ok, result} ->  IO.puts result
+                    _  ->  IO.puts "Could not shorten"
+               end
     end
   end
 
