@@ -25,9 +25,7 @@ defmodule Pendex do
     options = OptionParser.parse(args, switches: [help: :boolean, url: :string, opt: :string], aliases: [h: :help])
     case options do
       { [ help: true ], _, _ }    -> :help
-      # { _, [url, opt], _ }      -> [url, opt]
       {switches, _, _}            -> switches
-      # { _, [url], _ }             -> [url]
       _                           -> :help
     end
   end
@@ -40,13 +38,6 @@ defmodule Pendex do
     """
     System.halt(0)
   end
-
-  # def do_cli([url]) do
-  #   case Pendex.shrink_url(url) do
-  #     {ok, result} ->  IO.puts result
-  #               _  ->  IO.puts "Could not shorten"
-  #   end
-  # end
 
   def do_cli(switches) when is_list(switches) do
     url = Keyword.get(switches, :url, nil)
